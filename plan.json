@@ -1,0 +1,2505 @@
+{
+ "name": "Demo Residence",
+ "source": "Two-storey house, sheets A101 and A102 (title blocks removed)",
+ "units": "ft",
+ "metersPerUnit": 0.3048,
+ "location": {
+  "label": "Hudson Valley, NY",
+  "lat": 41.9,
+  "lon": -74.1,
+  "utcOffsetHours": -5
+ },
+ "footprint": [
+  53,
+  24
+ ],
+ "levels": [
+  {
+   "id": 1,
+   "name": "First floor",
+   "sheet": "A101",
+   "underlay": {
+    "src": "plans/level1.jpg",
+    "originPx": [
+     388,
+     207
+    ],
+    "pxPerUnit": [
+     21.7,
+     22.0
+    ],
+    "sizePx": [
+     1650,
+     1341
+    ]
+   }
+  },
+  {
+   "id": 2,
+   "name": "Second floor",
+   "sheet": "A102",
+   "underlay": {
+    "src": "plans/level2.jpg",
+    "originPx": [
+     415,
+     380
+    ],
+    "pxPerUnit": [
+     21.4,
+     21.9
+    ],
+    "sizePx": [
+     1650,
+     1322
+    ]
+   }
+  }
+ ],
+ "rooms": [
+  {
+   "id": "dining",
+   "level": 1,
+   "name": "Dining",
+   "number": "102",
+   "type": "dining",
+   "polygon": [
+    [
+     0,
+     0
+    ],
+    [
+     19.3,
+     0
+    ],
+    [
+     19.3,
+     11
+    ],
+    [
+     0,
+     11
+    ]
+   ],
+   "labelAt": [
+    9.7,
+    1.7
+   ]
+  },
+  {
+   "id": "living",
+   "level": 1,
+   "name": "Living",
+   "number": "103",
+   "type": "living",
+   "polygon": [
+    [
+     0,
+     11
+    ],
+    [
+     16.7,
+     11
+    ],
+    [
+     16.7,
+     24
+    ],
+    [
+     0,
+     24
+    ]
+   ],
+   "labelAt": [
+    12.4,
+    23.0
+   ]
+  },
+  {
+   "id": "kitchen",
+   "level": 1,
+   "name": "Kitchen",
+   "number": "104",
+   "type": "kitchen",
+   "polygon": [
+    [
+     16.7,
+     11
+    ],
+    [
+     19.3,
+     11
+    ],
+    [
+     19.3,
+     10.2
+    ],
+    [
+     26.7,
+     10.2
+    ],
+    [
+     26.7,
+     10.6
+    ],
+    [
+     36.4,
+     10.6
+    ],
+    [
+     36.4,
+     24
+    ],
+    [
+     16.7,
+     24
+    ]
+   ],
+   "labelAt": [
+    31.6,
+    22.6
+   ]
+  },
+  {
+   "id": "entry",
+   "level": 1,
+   "name": "Entry",
+   "number": "101",
+   "type": "entry",
+   "polygon": [
+    [
+     26.7,
+     0
+    ],
+    [
+     36.6,
+     0
+    ],
+    [
+     36.6,
+     10.6
+    ],
+    [
+     26.7,
+     10.6
+    ]
+   ],
+   "labelAt": [
+    30.2,
+    8.8
+   ]
+  },
+  {
+   "id": "storage",
+   "level": 1,
+   "name": "Storage",
+   "number": "",
+   "type": "storage",
+   "polygon": [
+    [
+     19.3,
+     0
+    ],
+    [
+     26.7,
+     0
+    ],
+    [
+     26.7,
+     3.6
+    ],
+    [
+     19.3,
+     3.6
+    ]
+   ],
+   "labelAt": [
+    23.0,
+    2.0
+   ]
+  },
+  {
+   "id": "pantry",
+   "level": 1,
+   "name": "Pantry",
+   "number": "",
+   "type": "storage",
+   "polygon": [
+    [
+     19.3,
+     3.6
+    ],
+    [
+     22.9,
+     3.6
+    ],
+    [
+     22.9,
+     10.2
+    ],
+    [
+     19.3,
+     10.2
+    ]
+   ],
+   "labelAt": [
+    21.1,
+    4.9
+   ]
+  },
+  {
+   "id": "stair1",
+   "level": 1,
+   "name": "Stair",
+   "number": "",
+   "type": "stair",
+   "polygon": [
+    [
+     22.9,
+     3.6
+    ],
+    [
+     26.7,
+     3.6
+    ],
+    [
+     26.7,
+     10.2
+    ],
+    [
+     22.9,
+     10.2
+    ]
+   ]
+  },
+  {
+   "id": "mech",
+   "level": 1,
+   "name": "Mech.",
+   "number": "108",
+   "type": "utility",
+   "polygon": [
+    [
+     36.6,
+     0
+    ],
+    [
+     44.9,
+     0
+    ],
+    [
+     44.9,
+     10.6
+    ],
+    [
+     36.6,
+     10.6
+    ]
+   ],
+   "labelAt": [
+    40.3,
+    5.3
+   ]
+  },
+  {
+   "id": "bath1",
+   "level": 1,
+   "name": "Bath",
+   "number": "107",
+   "type": "bath",
+   "polygon": [
+    [
+     44.9,
+     0
+    ],
+    [
+     53,
+     0
+    ],
+    [
+     53,
+     10.6
+    ],
+    [
+     44.9,
+     10.6
+    ]
+   ],
+   "labelAt": [
+    48.9,
+    6.6
+   ]
+  },
+  {
+   "id": "hall1",
+   "level": 1,
+   "name": "Hall",
+   "number": "",
+   "type": "hall",
+   "polygon": [
+    [
+     36.4,
+     10.6
+    ],
+    [
+     53,
+     10.6
+    ],
+    [
+     53,
+     14
+    ],
+    [
+     36.4,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "office",
+   "level": 1,
+   "name": "Office",
+   "number": "105",
+   "type": "office",
+   "polygon": [
+    [
+     36.4,
+     14
+    ],
+    [
+     43.4,
+     14
+    ],
+    [
+     43.4,
+     24
+    ],
+    [
+     36.4,
+     24
+    ]
+   ],
+   "labelAt": [
+    40.0,
+    23.0
+   ]
+  },
+  {
+   "id": "gym",
+   "level": 1,
+   "name": "Gym",
+   "number": "106",
+   "type": "gym",
+   "polygon": [
+    [
+     43.4,
+     14
+    ],
+    [
+     53,
+     14
+    ],
+    [
+     53,
+     24
+    ],
+    [
+     43.4,
+     24
+    ]
+   ],
+   "labelAt": [
+    50.0,
+    23.0
+   ]
+  },
+  {
+   "id": "pergola",
+   "level": 1,
+   "name": "Pergola",
+   "number": "",
+   "type": "exterior",
+   "polygon": [
+    [
+     16.7,
+     24
+    ],
+    [
+     34.7,
+     24
+    ],
+    [
+     34.7,
+     36.3
+    ],
+    [
+     16.7,
+     36.3
+    ]
+   ],
+   "labelAt": [
+    26.0,
+    35.3
+   ]
+  },
+  {
+   "id": "kidroom",
+   "level": 2,
+   "name": "Kid's bedroom",
+   "number": "206",
+   "type": "bedroom",
+   "polygon": [
+    [
+     0,
+     0
+    ],
+    [
+     13.3,
+     0
+    ],
+    [
+     13.3,
+     10
+    ],
+    [
+     12.6,
+     10
+    ],
+    [
+     12.6,
+     14.2
+    ],
+    [
+     0,
+     14.2
+    ]
+   ],
+   "labelAt": [
+    6.4,
+    9.0
+   ]
+  },
+  {
+   "id": "bath2",
+   "level": 2,
+   "name": "Kid's bath",
+   "number": "205",
+   "type": "bath",
+   "polygon": [
+    [
+     13.3,
+     0
+    ],
+    [
+     19.6,
+     0
+    ],
+    [
+     19.6,
+     10
+    ],
+    [
+     13.3,
+     10
+    ]
+   ],
+   "labelAt": [
+    16.4,
+    9.0
+   ]
+  },
+  {
+   "id": "stair2",
+   "level": 2,
+   "name": "Stair",
+   "number": "",
+   "type": "stair",
+   "polygon": [
+    [
+     19.6,
+     0
+    ],
+    [
+     26.6,
+     0
+    ],
+    [
+     26.6,
+     10
+    ],
+    [
+     19.6,
+     10
+    ]
+   ]
+  },
+  {
+   "id": "wardrobes",
+   "level": 2,
+   "name": "Wardrobes",
+   "number": "",
+   "type": "closet",
+   "polygon": [
+    [
+     35.4,
+     14.2
+    ],
+    [
+     38.5,
+     14.2
+    ],
+    [
+     38.5,
+     24
+    ],
+    [
+     35.4,
+     24
+    ]
+   ],
+   "labelAt": [
+    37.2,
+    19.1
+   ],
+   "labelRotate": -90
+  },
+  {
+   "id": "loft",
+   "level": 2,
+   "name": "Loft",
+   "number": "201",
+   "type": "living",
+   "polygon": [
+    [
+     12.6,
+     10
+    ],
+    [
+     35.4,
+     10
+    ],
+    [
+     35.4,
+     24
+    ],
+    [
+     17.8,
+     24
+    ],
+    [
+     17.8,
+     14.2
+    ],
+    [
+     12.6,
+     14.2
+    ]
+   ],
+   "labelAt": [
+    24.2,
+    22.8
+   ]
+  },
+  {
+   "id": "nursery",
+   "level": 2,
+   "name": "Nursery",
+   "number": "207",
+   "type": "bedroom",
+   "polygon": [
+    [
+     0,
+     14.2
+    ],
+    [
+     17.8,
+     14.2
+    ],
+    [
+     17.8,
+     24
+    ],
+    [
+     0,
+     24
+    ]
+   ],
+   "labelAt": [
+    6.8,
+    22.9
+   ]
+  },
+  {
+   "id": "closet",
+   "level": 2,
+   "name": "Closet",
+   "number": "204",
+   "type": "closet",
+   "polygon": [
+    [
+     33.9,
+     0
+    ],
+    [
+     41.4,
+     0
+    ],
+    [
+     41.4,
+     10
+    ],
+    [
+     33.9,
+     10
+    ]
+   ],
+   "labelAt": [
+    37.6,
+    8.6
+   ]
+  },
+  {
+   "id": "pbath",
+   "level": 2,
+   "name": "Primary bath",
+   "number": "203",
+   "type": "bath",
+   "polygon": [
+    [
+     45.4,
+     0
+    ],
+    [
+     53,
+     0
+    ],
+    [
+     53,
+     10
+    ],
+    [
+     45.4,
+     10
+    ]
+   ],
+   "labelAt": [
+    49.2,
+    6.4
+   ]
+  },
+  {
+   "id": "primary",
+   "level": 2,
+   "name": "Primary bedroom",
+   "number": "202",
+   "type": "bedroom",
+   "labelAt": [
+    44.6,
+    11.6
+   ],
+   "polygon": [
+    [
+     35.4,
+     10
+    ],
+    [
+     41.4,
+     10
+    ],
+    [
+     41.4,
+     0
+    ],
+    [
+     45.4,
+     0
+    ],
+    [
+     45.4,
+     10
+    ],
+    [
+     53,
+     10
+    ],
+    [
+     53,
+     24
+    ],
+    [
+     38.5,
+     24
+    ],
+    [
+     38.5,
+     14.2
+    ],
+    [
+     35.4,
+     14.2
+    ]
+   ],
+   "zones": [
+    {
+     "id": "primary-a",
+     "name": "Primary, side A",
+     "label": "side A",
+     "labelAt": [
+      43.4,
+      16.6
+     ],
+     "polygon": [
+      [
+       35.4,
+       10
+      ],
+      [
+       41.4,
+       10
+      ],
+      [
+       41.4,
+       0
+      ],
+      [
+       45.4,
+       0
+      ],
+      [
+       45.4,
+       10
+      ],
+      [
+       53,
+       10
+      ],
+      [
+       53,
+       18
+      ],
+      [
+       38.5,
+       18
+      ],
+      [
+       38.5,
+       14.2
+      ],
+      [
+       35.4,
+       14.2
+      ]
+     ]
+    },
+    {
+     "id": "primary-b",
+     "name": "Primary, side B",
+     "label": "side B",
+     "labelAt": [
+      43.4,
+      19.6
+     ],
+     "polygon": [
+      [
+       38.5,
+       18
+      ],
+      [
+       53,
+       18
+      ],
+      [
+       53,
+       24
+      ],
+      [
+       38.5,
+       24
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "privacy": {
+  "_note": "Spaces are public by default. Room types listed here are private; zones inherit their room's type.",
+  "default": "public",
+  "privateTypes": [
+   "bedroom",
+   "bath",
+   "office",
+   "gym",
+   "closet"
+  ]
+ },
+ "lineOfSight": {
+  "_note": "Zones see each other across openings, stairs and doors that are never closed. Closable doors (dashed) and walls block line of sight. Exterior doors block it. Vertical links join the stairwell across levels.",
+  "vertical": [
+   [
+    "stair1",
+    "stair2"
+   ]
+  ],
+  "exteriorDoorsBlock": true
+ },
+ "voids": [
+  {
+   "level": 2,
+   "name": "Open to below",
+   "polygon": [
+    [
+     26.6,
+     0
+    ],
+    [
+     33.9,
+     0
+    ],
+    [
+     33.9,
+     10
+    ],
+    [
+     26.6,
+     10
+    ]
+   ]
+  }
+ ],
+ "doorways": [
+  {
+   "id": "d-front",
+   "level": 1,
+   "at": [
+    31.8,
+    0
+   ],
+   "width": 3.0,
+   "axis": "h",
+   "rooms": [
+    "entry",
+    "outside"
+   ],
+   "kind": "exit",
+   "label": "Front door"
+  },
+  {
+   "id": "d-side",
+   "level": 1,
+   "at": [
+    53,
+    12.3
+   ],
+   "width": 3.0,
+   "axis": "v",
+   "rooms": [
+    "hall1",
+    "outside"
+   ],
+   "kind": "exit",
+   "label": "Side"
+  },
+  {
+   "id": "d-patio",
+   "level": 1,
+   "at": [
+    19.6,
+    24
+   ],
+   "width": 3.2,
+   "axis": "h",
+   "rooms": [
+    "kitchen",
+    "pergola"
+   ],
+   "kind": "door"
+  },
+  {
+   "id": "d-pantry",
+   "level": 1,
+   "at": [
+    20.6,
+    10.2
+   ],
+   "width": 2.4,
+   "axis": "h",
+   "rooms": [
+    "pantry",
+    "kitchen"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-storage",
+   "level": 1,
+   "at": [
+    26.7,
+    2.0
+   ],
+   "width": 2.4,
+   "axis": "v",
+   "rooms": [
+    "storage",
+    "entry"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-hall",
+   "level": 1,
+   "at": [
+    36.4,
+    12.3
+   ],
+   "width": 3.0,
+   "axis": "v",
+   "rooms": [
+    "kitchen",
+    "hall1"
+   ],
+   "kind": "door"
+  },
+  {
+   "id": "d-office",
+   "level": 1,
+   "at": [
+    40.0,
+    14
+   ],
+   "width": 4.0,
+   "axis": "h",
+   "rooms": [
+    "hall1",
+    "office"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-gym",
+   "level": 1,
+   "at": [
+    45.0,
+    14
+   ],
+   "width": 3.0,
+   "axis": "h",
+   "rooms": [
+    "hall1",
+    "gym"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-bath1",
+   "level": 1,
+   "at": [
+    46.5,
+    10.6
+   ],
+   "width": 2.8,
+   "axis": "h",
+   "rooms": [
+    "hall1",
+    "bath1"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-mech",
+   "level": 1,
+   "at": [
+    44.9,
+    8.3
+   ],
+   "width": 2.8,
+   "axis": "v",
+   "rooms": [
+    "mech",
+    "bath1"
+   ],
+   "kind": "door"
+  },
+  {
+   "id": "o-din-liv",
+   "level": 1,
+   "at": [
+    8.35,
+    11
+   ],
+   "width": 16.7,
+   "axis": "h",
+   "rooms": [
+    "dining",
+    "living"
+   ],
+   "kind": "opening"
+  },
+  {
+   "id": "o-din-kit",
+   "level": 1,
+   "at": [
+    18.0,
+    11
+   ],
+   "width": 2.6,
+   "axis": "h",
+   "rooms": [
+    "dining",
+    "kitchen"
+   ],
+   "kind": "opening"
+  },
+  {
+   "id": "o-liv-kit",
+   "level": 1,
+   "at": [
+    16.7,
+    17.5
+   ],
+   "width": 13.0,
+   "axis": "v",
+   "rooms": [
+    "living",
+    "kitchen"
+   ],
+   "kind": "opening"
+  },
+  {
+   "id": "o-kit-ent",
+   "level": 1,
+   "at": [
+    30.5,
+    10.6
+   ],
+   "width": 7.6,
+   "axis": "h",
+   "rooms": [
+    "kitchen",
+    "entry"
+   ],
+   "kind": "opening"
+  },
+  {
+   "id": "s-foot",
+   "level": 1,
+   "at": [
+    24.8,
+    10.2
+   ],
+   "width": 3.6,
+   "axis": "h",
+   "rooms": [
+    "kitchen",
+    "stair1"
+   ],
+   "kind": "stair"
+  },
+  {
+   "id": "d-kid",
+   "level": 2,
+   "at": [
+    12.6,
+    12.2
+   ],
+   "width": 3.0,
+   "axis": "v",
+   "rooms": [
+    "loft",
+    "kidroom"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-bath2",
+   "level": 2,
+   "at": [
+    15.2,
+    10
+   ],
+   "width": 2.6,
+   "axis": "h",
+   "rooms": [
+    "loft",
+    "bath2"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-nursery",
+   "level": 2,
+   "at": [
+    17.8,
+    15.9
+   ],
+   "width": 3.0,
+   "axis": "v",
+   "rooms": [
+    "loft",
+    "nursery"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-primary",
+   "level": 2,
+   "at": [
+    35.4,
+    12.3
+   ],
+   "width": 3.0,
+   "axis": "v",
+   "rooms": [
+    "loft",
+    "primary"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-closet",
+   "level": 2,
+   "at": [
+    41.4,
+    5.2
+   ],
+   "width": 2.0,
+   "axis": "v",
+   "rooms": [
+    "primary",
+    "closet"
+   ],
+   "kind": "door"
+  },
+  {
+   "id": "d-pbath",
+   "level": 2,
+   "at": [
+    45.4,
+    5.0
+   ],
+   "width": 2.6,
+   "axis": "v",
+   "rooms": [
+    "primary",
+    "pbath"
+   ],
+   "kind": "door",
+   "closable": true
+  },
+  {
+   "id": "d-robe-a",
+   "level": 2,
+   "at": [
+    38.5,
+    15.0
+   ],
+   "width": 1.6,
+   "axis": "v",
+   "rooms": [
+    "primary",
+    "wardrobes"
+   ],
+   "kind": "door"
+  },
+  {
+   "id": "d-robe-b",
+   "level": 2,
+   "at": [
+    38.5,
+    20.4
+   ],
+   "width": 5.0,
+   "axis": "v",
+   "rooms": [
+    "primary",
+    "wardrobes"
+   ],
+   "kind": "door"
+  },
+  {
+   "id": "s-head",
+   "level": 2,
+   "at": [
+    21.6,
+    10
+   ],
+   "width": 2.4,
+   "axis": "h",
+   "rooms": [
+    "loft",
+    "stair2"
+   ],
+   "kind": "stair"
+  }
+ ],
+ "nodes": {
+  "j-centre": [
+   1,
+   17.8,
+   12.2
+  ],
+  "din-hub": [
+   1,
+   16.0,
+   6.5
+  ],
+  "din-ne": [
+   1,
+   14.6,
+   3.7
+  ],
+  "din-n3": [
+   1,
+   12.6,
+   3.7
+  ],
+  "din-n2": [
+   1,
+   9.8,
+   3.7
+  ],
+  "din-n1": [
+   1,
+   7.0,
+   3.7
+  ],
+  "din-nw": [
+   1,
+   5.0,
+   3.7
+  ],
+  "din-w": [
+   1,
+   5.0,
+   6.5
+  ],
+  "din-sw": [
+   1,
+   5.0,
+   9.4
+  ],
+  "din-s1": [
+   1,
+   7.0,
+   9.4
+  ],
+  "din-s2": [
+   1,
+   9.8,
+   9.4
+  ],
+  "din-s3": [
+   1,
+   12.6,
+   9.4
+  ],
+  "din-se": [
+   1,
+   14.6,
+   9.4
+  ],
+  "din-e": [
+   1,
+   14.6,
+   6.5
+  ],
+  "liv-hub": [
+   1,
+   3.2,
+   12.8
+  ],
+  "liv-w": [
+   1,
+   3.2,
+   18.6
+  ],
+  "sofa-c": [
+   1,
+   6.6,
+   17.0
+  ],
+  "sofa-a": [
+   1,
+   9.0,
+   17.0
+  ],
+  "sofa-b": [
+   1,
+   11.4,
+   19.4
+  ],
+  "armchair": [
+   1,
+   3.2,
+   21.4
+  ],
+  "playmat": [
+   1,
+   8.2,
+   22.0
+  ],
+  "kit-n": [
+   1,
+   24.0,
+   12.6
+  ],
+  "kit-ent": [
+   1,
+   29.5,
+   11.3
+  ],
+  "kit-ne": [
+   1,
+   31.6,
+   12.6
+  ],
+  "kit-se": [
+   1,
+   31.6,
+   18.9
+  ],
+  "kit-sw": [
+   1,
+   18.3,
+   18.9
+  ],
+  "cooktop": [
+   1,
+   27.6,
+   18.5
+  ],
+  "sink": [
+   1,
+   25.4,
+   19.9
+  ],
+  "fridge": [
+   1,
+   32.8,
+   16.4
+  ],
+  "stool-1": [
+   1,
+   20.6,
+   13.7
+  ],
+  "stool-2": [
+   1,
+   22.8,
+   13.7
+  ],
+  "stool-3": [
+   1,
+   25.0,
+   13.7
+  ],
+  "stool-4": [
+   1,
+   27.2,
+   13.7
+  ],
+  "pantry-door": [
+   1,
+   20.6,
+   10.8
+  ],
+  "pantry-in": [
+   1,
+   21.2,
+   7.0
+  ],
+  "stair-foot": [
+   1,
+   24.8,
+   10.9
+  ],
+  "entry-hub": [
+   1,
+   30.5,
+   6.0
+  ],
+  "front-door": [
+   1,
+   31.8,
+   1.0
+  ],
+  "bench": [
+   1,
+   35.0,
+   7.2
+  ],
+  "out-front": [
+   1,
+   31.8,
+   -2.5
+  ],
+  "hall-w": [
+   1,
+   38.0,
+   12.3
+  ],
+  "hall-m": [
+   1,
+   41.5,
+   12.3
+  ],
+  "hall-e": [
+   1,
+   47.0,
+   12.3
+  ],
+  "side-door": [
+   1,
+   52.2,
+   12.3
+  ],
+  "out-side": [
+   1,
+   55.5,
+   12.3
+  ],
+  "desk": [
+   1,
+   39.6,
+   19.3
+  ],
+  "gym-in": [
+   1,
+   45.0,
+   15.6
+  ],
+  "bike": [
+   1,
+   47.8,
+   21.0
+  ],
+  "gym-mat": [
+   1,
+   51.4,
+   20.0
+  ],
+  "bath1-in": [
+   1,
+   46.5,
+   8.6
+  ],
+  "bath1-wc": [
+   1,
+   50.0,
+   5.4
+  ],
+  "bath1-basin": [
+   1,
+   49.2,
+   8.6
+  ],
+  "bath1-shower": [
+   1,
+   47.8,
+   2.4
+  ],
+  "patio-in": [
+   1,
+   19.6,
+   25.6
+  ],
+  "pergola-table": [
+   1,
+   24.5,
+   29.0
+  ],
+  "pergola-lounge": [
+   1,
+   30.5,
+   31.5
+  ],
+  "pergola-play": [
+   1,
+   21.5,
+   33.0
+  ],
+  "stair-head": [
+   2,
+   21.2,
+   11.0
+  ],
+  "loft-hub": [
+   2,
+   24.0,
+   12.2
+  ],
+  "loft-w": [
+   2,
+   15.4,
+   12.2
+  ],
+  "loft-e": [
+   2,
+   31.6,
+   12.2
+  ],
+  "loft-sw": [
+   2,
+   19.6,
+   15.9
+  ],
+  "loft-play": [
+   2,
+   23.0,
+   19.5
+  ],
+  "loft-tv": [
+   2,
+   31.2,
+   15.2
+  ],
+  "loft-sofa-a": [
+   2,
+   30.0,
+   16.8
+  ],
+  "loft-sofa-b": [
+   2,
+   30.0,
+   18.6
+  ],
+  "loft-sofa-c": [
+   2,
+   30.0,
+   20.4
+  ],
+  "kid-door": [
+   2,
+   12.0,
+   12.2
+  ],
+  "kid-hub": [
+   2,
+   9.2,
+   11.4
+  ],
+  "kid-bedside": [
+   2,
+   8.9,
+   8.4
+  ],
+  "kid-bed": [
+   2,
+   6.0,
+   4.4
+  ],
+  "kid-desk": [
+   2,
+   5.6,
+   11.4
+  ],
+  "kid-floor": [
+   2,
+   5.4,
+   9.2
+  ],
+  "bath2-in": [
+   2,
+   15.6,
+   8.0
+  ],
+  "bath2-tub": [
+   2,
+   16.2,
+   2.0
+  ],
+  "bath2-wc": [
+   2,
+   17.6,
+   5.0
+  ],
+  "bath2-basin": [
+   2,
+   17.9,
+   8.2
+  ],
+  "nursery-hub": [
+   2,
+   14.6,
+   15.9
+  ],
+  "glider": [
+   2,
+   11.4,
+   16.6
+  ],
+  "crib": [
+   2,
+   11.3,
+   21.6
+  ],
+  "pri-hub": [
+   2,
+   40.6,
+   12.2
+  ],
+  "pri-hall": [
+   2,
+   43.4,
+   8.0
+  ],
+  "laundry": [
+   2,
+   43.4,
+   3.0
+  ],
+  "closet-door": [
+   2,
+   42.4,
+   5.2
+  ],
+  "closet-in": [
+   2,
+   37.8,
+   5.2
+  ],
+  "pbath-door": [
+   2,
+   44.4,
+   5.0
+  ],
+  "pbath-in": [
+   2,
+   47.2,
+   5.6
+  ],
+  "pbath-shower": [
+   2,
+   49.0,
+   2.2
+  ],
+  "pbath-vanity": [
+   2,
+   47.8,
+   8.4
+  ],
+  "pbath-wc": [
+   2,
+   50.6,
+   8.2
+  ],
+  "bedside-a": [
+   2,
+   47.0,
+   14.4
+  ],
+  "bed-a": [
+   2,
+   49.5,
+   16.7
+  ],
+  "bedside-b": [
+   2,
+   47.0,
+   21.8
+  ],
+  "bed-b": [
+   2,
+   49.5,
+   19.3
+  ],
+  "bassinet": [
+   2,
+   51.6,
+   22.2
+  ],
+  "nursing-chair": [
+   2,
+   41.6,
+   21.4
+  ]
+ },
+ "edges": [
+  [
+   "din-hub",
+   "j-centre"
+  ],
+  [
+   "din-hub",
+   "din-ne"
+  ],
+  [
+   "din-hub",
+   "din-e"
+  ],
+  [
+   "din-hub",
+   "din-se"
+  ],
+  [
+   "din-ne",
+   "din-n3"
+  ],
+  [
+   "din-n3",
+   "din-n2"
+  ],
+  [
+   "din-n2",
+   "din-n1"
+  ],
+  [
+   "din-n1",
+   "din-nw"
+  ],
+  [
+   "din-nw",
+   "din-w"
+  ],
+  [
+   "din-w",
+   "din-sw"
+  ],
+  [
+   "din-sw",
+   "din-s1"
+  ],
+  [
+   "din-s1",
+   "din-s2"
+  ],
+  [
+   "din-s2",
+   "din-s3"
+  ],
+  [
+   "din-s3",
+   "din-se"
+  ],
+  [
+   "din-ne",
+   "din-e"
+  ],
+  [
+   "din-e",
+   "din-se"
+  ],
+  [
+   "liv-hub",
+   "j-centre"
+  ],
+  [
+   "liv-hub",
+   "din-sw"
+  ],
+  [
+   "liv-hub",
+   "liv-w"
+  ],
+  [
+   "liv-w",
+   "sofa-c"
+  ],
+  [
+   "sofa-c",
+   "sofa-a"
+  ],
+  [
+   "sofa-a",
+   "sofa-b"
+  ],
+  [
+   "liv-w",
+   "armchair"
+  ],
+  [
+   "liv-w",
+   "playmat"
+  ],
+  [
+   "sofa-a",
+   "playmat"
+  ],
+  [
+   "j-centre",
+   "kit-n"
+  ],
+  [
+   "j-centre",
+   "kit-sw"
+  ],
+  [
+   "j-centre",
+   "pantry-door"
+  ],
+  [
+   "j-centre",
+   "stair-foot"
+  ],
+  [
+   "kit-n",
+   "pantry-door"
+  ],
+  [
+   "kit-n",
+   "stair-foot"
+  ],
+  [
+   "kit-n",
+   "kit-ent"
+  ],
+  [
+   "kit-ent",
+   "kit-ne"
+  ],
+  [
+   "kit-n",
+   "kit-ne"
+  ],
+  [
+   "kit-ne",
+   "kit-se"
+  ],
+  [
+   "kit-ne",
+   "fridge"
+  ],
+  [
+   "kit-se",
+   "fridge"
+  ],
+  [
+   "kit-se",
+   "cooktop"
+  ],
+  [
+   "cooktop",
+   "sink"
+  ],
+  [
+   "sink",
+   "kit-sw"
+  ],
+  [
+   "kit-n",
+   "stool-1"
+  ],
+  [
+   "kit-n",
+   "stool-2"
+  ],
+  [
+   "kit-n",
+   "stool-3"
+  ],
+  [
+   "kit-n",
+   "stool-4"
+  ],
+  [
+   "pantry-door",
+   "pantry-in"
+  ],
+  [
+   "kit-ent",
+   "entry-hub"
+  ],
+  [
+   "entry-hub",
+   "front-door"
+  ],
+  [
+   "front-door",
+   "out-front"
+  ],
+  [
+   "entry-hub",
+   "bench"
+  ],
+  [
+   "kit-ne",
+   "hall-w"
+  ],
+  [
+   "hall-w",
+   "hall-m"
+  ],
+  [
+   "hall-m",
+   "hall-e"
+  ],
+  [
+   "hall-e",
+   "side-door"
+  ],
+  [
+   "side-door",
+   "out-side"
+  ],
+  [
+   "hall-m",
+   "desk"
+  ],
+  [
+   "hall-e",
+   "gym-in"
+  ],
+  [
+   "gym-in",
+   "bike"
+  ],
+  [
+   "bike",
+   "gym-mat"
+  ],
+  [
+   "hall-e",
+   "bath1-in"
+  ],
+  [
+   "bath1-in",
+   "bath1-wc"
+  ],
+  [
+   "bath1-in",
+   "bath1-basin"
+  ],
+  [
+   "bath1-in",
+   "bath1-shower"
+  ],
+  [
+   "kit-sw",
+   "patio-in"
+  ],
+  [
+   "patio-in",
+   "pergola-table"
+  ],
+  [
+   "patio-in",
+   "pergola-play"
+  ],
+  [
+   "pergola-table",
+   "pergola-lounge"
+  ],
+  [
+   "stair-head",
+   "loft-hub"
+  ],
+  [
+   "stair-head",
+   "loft-w"
+  ],
+  [
+   "loft-hub",
+   "loft-w"
+  ],
+  [
+   "loft-hub",
+   "loft-e"
+  ],
+  [
+   "loft-hub",
+   "loft-sw"
+  ],
+  [
+   "loft-hub",
+   "loft-play"
+  ],
+  [
+   "loft-sw",
+   "loft-play"
+  ],
+  [
+   "loft-e",
+   "loft-tv"
+  ],
+  [
+   "loft-tv",
+   "loft-sofa-a"
+  ],
+  [
+   "loft-sofa-a",
+   "loft-sofa-b"
+  ],
+  [
+   "loft-sofa-b",
+   "loft-sofa-c"
+  ],
+  [
+   "loft-w",
+   "kid-door"
+  ],
+  [
+   "kid-door",
+   "kid-hub"
+  ],
+  [
+   "kid-hub",
+   "kid-bedside"
+  ],
+  [
+   "kid-bedside",
+   "kid-bed"
+  ],
+  [
+   "kid-hub",
+   "kid-desk"
+  ],
+  [
+   "kid-hub",
+   "kid-floor"
+  ],
+  [
+   "loft-w",
+   "bath2-in"
+  ],
+  [
+   "bath2-in",
+   "bath2-tub"
+  ],
+  [
+   "bath2-in",
+   "bath2-wc"
+  ],
+  [
+   "bath2-in",
+   "bath2-basin"
+  ],
+  [
+   "loft-sw",
+   "nursery-hub"
+  ],
+  [
+   "nursery-hub",
+   "glider"
+  ],
+  [
+   "glider",
+   "crib"
+  ],
+  [
+   "loft-e",
+   "pri-hub"
+  ],
+  [
+   "pri-hub",
+   "pri-hall"
+  ],
+  [
+   "pri-hall",
+   "laundry"
+  ],
+  [
+   "pri-hall",
+   "closet-door"
+  ],
+  [
+   "closet-door",
+   "closet-in"
+  ],
+  [
+   "pri-hall",
+   "pbath-door"
+  ],
+  [
+   "pbath-door",
+   "pbath-in"
+  ],
+  [
+   "pbath-in",
+   "pbath-shower"
+  ],
+  [
+   "pbath-in",
+   "pbath-vanity"
+  ],
+  [
+   "pbath-in",
+   "pbath-wc"
+  ],
+  [
+   "pri-hub",
+   "bedside-a"
+  ],
+  [
+   "bedside-a",
+   "bed-a"
+  ],
+  [
+   "pri-hub",
+   "nursing-chair"
+  ],
+  [
+   "nursing-chair",
+   "bedside-b"
+  ],
+  [
+   "bedside-b",
+   "bed-b"
+  ],
+  [
+   "bedside-b",
+   "bassinet"
+  ]
+ ],
+ "stairs": [
+  {
+   "from": "stair-foot",
+   "to": "stair-head",
+   "seconds": 14,
+   "via": [
+    [
+     1,
+     24.8,
+     4.4
+    ],
+    [
+     2,
+     23.8,
+     3.2
+    ]
+   ]
+  }
+ ],
+ "places": {
+  "dining.table": [
+   "din-n1",
+   "din-n2",
+   "din-n3",
+   "din-s1",
+   "din-s2",
+   "din-s3",
+   "din-e",
+   "din-w"
+  ],
+  "living.sofa": [
+   "sofa-a",
+   "sofa-b",
+   "sofa-c",
+   "armchair"
+  ],
+  "living.play": [
+   "playmat"
+  ],
+  "kitchen.island": [
+   "stool-2",
+   "stool-3",
+   "stool-1",
+   "stool-4"
+  ],
+  "kitchen.cook": [
+   "cooktop"
+  ],
+  "kitchen.sink": [
+   "sink"
+  ],
+  "kitchen.fridge": [
+   "fridge"
+  ],
+  "kitchen.pantry": [
+   "pantry-in"
+  ],
+  "entry.bench": [
+   "bench",
+   "entry-hub"
+  ],
+  "office.desk": [
+   "desk"
+  ],
+  "gym.bike": [
+   "bike"
+  ],
+  "gym.mat": [
+   "gym-mat"
+  ],
+  "bath1.wc": [
+   "bath1-wc"
+  ],
+  "bath1.basin": [
+   "bath1-basin"
+  ],
+  "bath1.shower": [
+   "bath1-shower"
+  ],
+  "pergola.table": [
+   "pergola-table"
+  ],
+  "pergola.lounge": [
+   "pergola-lounge"
+  ],
+  "pergola.play": [
+   "pergola-play"
+  ],
+  "loft.sofa": [
+   "loft-sofa-b",
+   "loft-sofa-a",
+   "loft-sofa-c"
+  ],
+  "loft.play": [
+   "loft-play"
+  ],
+  "kid.bed": [
+   "kid-bed"
+  ],
+  "kid.bedside": [
+   "kid-bedside"
+  ],
+  "kid.desk": [
+   "kid-desk"
+  ],
+  "kid.floor": [
+   "kid-floor"
+  ],
+  "bath2.tub": [
+   "bath2-tub"
+  ],
+  "bath2.wc": [
+   "bath2-wc"
+  ],
+  "bath2.basin": [
+   "bath2-basin"
+  ],
+  "nursery.crib": [
+   "crib"
+  ],
+  "nursery.glider": [
+   "glider"
+  ],
+  "primary.bedA": [
+   "bed-a"
+  ],
+  "primary.bedB": [
+   "bed-b"
+  ],
+  "primary.bassinet": [
+   "bassinet"
+  ],
+  "primary.chair": [
+   "nursing-chair"
+  ],
+  "primary.laundry": [
+   "laundry"
+  ],
+  "primary.closet": [
+   "closet-in"
+  ],
+  "pbath.shower": [
+   "pbath-shower"
+  ],
+  "pbath.vanity": [
+   "pbath-vanity"
+  ],
+  "pbath.wc": [
+   "pbath-wc"
+  ]
+ },
+ "exits": {
+  "front": {
+   "node": "out-front",
+   "name": "Front door"
+  },
+  "side": {
+   "node": "out-side",
+   "name": "Side door"
+  }
+ },
+ "furniture": [
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 6.0,
+   "y": 4.6,
+   "w": 7.5,
+   "h": 3.9,
+   "label": "table"
+  },
+  {
+   "level": 1,
+   "kind": "path",
+   "d": "M6 14.6 H15.5 V20.8 H12.4 V15.8 H6 Z",
+   "label": "sofa"
+  },
+  {
+   "level": 1,
+   "kind": "circle",
+   "cx": 4.7,
+   "cy": 16.0,
+   "r": 0.9
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 19.3,
+   "y": 14.6,
+   "w": 10.3,
+   "h": 2.8,
+   "label": "island"
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 21.7,
+   "y": 21.0,
+   "w": 8.1,
+   "h": 2.6,
+   "label": "counter"
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 33.7,
+   "y": 14.5,
+   "w": 2.7,
+   "h": 9.3,
+   "label": "tall"
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 37.0,
+   "y": 18.0,
+   "w": 2.0,
+   "h": 3.2
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 46.9,
+   "y": 14.5,
+   "w": 3.4,
+   "h": 2.9
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 46.2,
+   "y": 20.1,
+   "w": 3.2,
+   "h": 1.9
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 45.8,
+   "y": 0.7,
+   "w": 6.6,
+   "h": 3.0
+  },
+  {
+   "level": 1,
+   "kind": "rect",
+   "x": 34.1,
+   "y": 5.2,
+   "w": 2.2,
+   "h": 4.2
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 3.5,
+   "y": 1.1,
+   "w": 4.7,
+   "h": 6.4,
+   "label": "bed"
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 9.6,
+   "y": 0.4,
+   "w": 3.6,
+   "h": 9.4
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 13.6,
+   "y": 0.9,
+   "w": 5.1,
+   "h": 2.1
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 4.4,
+   "y": 14.6,
+   "w": 4.9,
+   "h": 6.2,
+   "label": "bed"
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 13.5,
+   "y": 18.3,
+   "w": 3.3,
+   "h": 4.5
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 10.2,
+   "y": 20.6,
+   "w": 2.2,
+   "h": 2.6,
+   "label": "crib"
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 26.6,
+   "y": 14.6,
+   "w": 2.6,
+   "h": 7.7,
+   "label": "sofa"
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 35.7,
+   "y": 14.2,
+   "w": 2.8,
+   "h": 9.8
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 45.6,
+   "y": 15.5,
+   "w": 6.3,
+   "h": 5.0,
+   "label": "bed"
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 50.6,
+   "y": 21.4,
+   "w": 1.8,
+   "h": 1.6,
+   "label": "bassinet"
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 45.8,
+   "y": 0.7,
+   "w": 6.1,
+   "h": 3.0
+  },
+  {
+   "level": 2,
+   "kind": "rect",
+   "x": 20.6,
+   "y": 2.3,
+   "w": 6.0,
+   "h": 7.7,
+   "label": "stair"
+  }
+ ]
+}

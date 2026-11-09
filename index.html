@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rhythm Simulator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: a sky card for the time, the two plan sheets side by side, a week strip, then the calendar.
+   Palette: taken from the sky, night navy through twilight blue and haze to golden-hour orange. */
+:root {
+  --paper: #EEF0F4;        /* page */
+  --sheet: #FFFFFF;        /* cards and the plan sheet */
+  --ink: #16213D;          /* text and walls: night navy */
+  --muted: #5D6980;
+  --hair: #DCE1EA;
+  --rule: #E9EDF3;
+  --accent: #1F3A66;       /* controls */
+  --accent-ink: #FFFFFF;
+  --lamp: #F0954A;         /* awake presence: golden hour */
+  --moon: #3E6FA8;         /* asleep presence: twilight blue */
+  --ok: #2F7D5B;
+  --bad: #C0452F;
+  --act-sleep: #1E3A68;
+  --act-care: #4D7AB4;
+  --act-ready: #93B7D6;
+  --act-away: #D5D8D0;
+  --act-free: #F4DDB8;
+  --act-meal: #F3B56E;
+  --act-activity: #E8853E;
+  --act-social: #B9594A;
+  --font-ui: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-data: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --r: 12px;               /* controls */
+  --rc: 22px;              /* cards */
+  --sky-bg: #32609A;       /* set from the sun's elevation as the week plays */
+  --sky-fg: #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0A1120; --sheet: #121B2E; --ink: #E9EEF6; --muted: #8C98AE; --hair: #26324A; --rule: #1B2539;
+    --accent: #8FB4DC; --accent-ink: #0A1120; --lamp: #F29C55; --moon: #7FA3D6; --ok: #6CC59A; --bad: #EE7A63;
+    --act-sleep: #2E4E85; --act-care: #5683BD; --act-ready: #7FA3C4; --act-away: #39435A; --act-free: #8C7A5E;
+    --act-meal: #D99A56; --act-activity: #D4773A; --act-social: #B0594B;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0A1120; --sheet: #121B2E; --ink: #E9EEF6; --muted: #8C98AE; --hair: #26324A; --rule: #1B2539;
+  --accent: #8FB4DC; --accent-ink: #0A1120; --lamp: #F29C55; --moon: #7FA3D6; --ok: #6CC59A; --bad: #EE7A63;
+  --act-sleep: #2E4E85; --act-care: #5683BD; --act-ready: #7FA3C4; --act-away: #39435A; --act-free: #8C7A5E;
+  --act-meal: #D99A56; --act-activity: #D4773A; --act-social: #B0594B;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { background: var(--paper); color: var(--ink); }
+body {
+  font: 14px/1.45 var(--font-ui); font-feature-settings: "cv11", "ss01";
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 14px 28px;
+}
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+.app { max-width: 1560px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+/* Header */
+.head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); align-items: stretch; gap: 16px; }
+.title { display: flex; flex-direction: column; justify-content: flex-end; gap: 18px; padding: 6px 2px; min-width: 0; }
+.title > div:first-child { margin-bottom: auto; }
+.title h1 { margin: 0; font-size: 30px; line-height: 1.1; font-weight: 800; letter-spacing: -.02em; text-wrap: balance; }
+.title p { margin: 6px 0 0; color: var(--muted); font-size: 14px; font-weight: 500; }
+.seedbox { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seedbox label { display: flex; align-items: center; gap: 8px; }
+.seedbox input[type=text] { width: 150px; padding: 8px 12px; border: 1px solid var(--hair); background: var(--sheet); border-radius: var(--r); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.history { display: flex; gap: 6px; flex-wrap: wrap; }
+.history button { border: 0; background: var(--rule); border-radius: 99px; padding: 3px 10px; font: 500 12px var(--font-ui); color: var(--muted); cursor: pointer; }
+.history button[aria-current="true"] { background: var(--ink); color: var(--sheet); }
+
+/* Sky card: its colour follows the sun over the house at the playhead. */
+.sky { position: relative; background: var(--sky-bg); color: var(--sky-fg); border-radius: var(--rc); padding: 18px 22px 16px; display: grid; gap: 4px; transition: background-color .3s, color .3s; }
+.sky .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.sky .day { font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
+.sky .time { font-size: clamp(40px, 4.4vw, 54px); line-height: 1; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.sky .sub { font-size: 14px; font-weight: 600; opacity: .78; }
+.sky .curve { position: relative; height: 84px; margin-top: 30px; }
+.sky .curve svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.sky .sun { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; border: 2px solid var(--sky-fg); background: rgba(255, 214, 150, .85); box-shadow: 0 0 14px rgba(255, 200, 120, .9); }
+.sky .mark { position: absolute; top: -18px; transform: translateX(-50%); font-size: 12px; font-weight: 600; white-space: nowrap; opacity: .9; }
+.sky .lightstrip { position: absolute; left: 0; right: 0; top: calc(100% + 14px); height: 32px; border-radius: 7px; overflow: hidden; background: rgba(20, 32, 58, .2); }
+.sky .lightstrip canvas { display: block; width: 100%; height: 100%; }
+.sky .sundrop { position: absolute; width: 1px; bottom: -14px; background: currentColor; opacity: .55; }
+.sky { grid-template-columns: minmax(0, 1fr); }
+.sky .row > .time, .sky .row > #rPhase { flex: none; }
+.sky .row > .whosel, .sky .row > .daynav { flex: 0 1 auto; }
+.whosel { position: relative; display: inline-flex; align-items: center; gap: 10px; min-width: 0; cursor: pointer; }
+.whosel .day { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.whosel .chev { flex: none; }
+.whosel select { position: absolute; inset: 0; width: 100%; opacity: 0; font-size: 16px; cursor: pointer; }
+.whosel:has(select:focus-visible) { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 8px; }
+.avatar { flex: none; width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; box-shadow: inset 0 0 0 1px rgba(20, 32, 58, .35); }
+.daynav { display: inline-flex; align-items: center; gap: 8px; }
+.daynav button { all: unset; cursor: pointer; font-size: 20px; line-height: 1; font-weight: 700; padding: 0 5px; border-radius: 4px; }
+.daynav button:focus-visible { outline: 2px solid currentColor; }
+.daynav button:disabled { opacity: .3; cursor: default; }
+.sky .hours { display: flex; justify-content: space-between; font-size: 12px; font-weight: 500; opacity: .7; font-variant-numeric: tabular-nums; margin-top: 52px; }
+.sky .suntimes { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; margin-top: 10px; }
+.sky .suntimes div { display: grid; gap: 2px; }
+.sky .suntimes div:nth-child(2) { text-align: center; }
+.sky .suntimes div:nth-child(3) { text-align: right; }
+.sky .suntimes span { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; opacity: .72; }
+.sky .suntimes b { font-size: 24px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.sky .loc { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; opacity: .8; margin-top: 8px; }
+/* The sun is the time slider: a transparent range input sits over the curve, so dragging, clicking and arrow keys all move the sun. */
+.sky .sunrange { position: absolute; inset: -12px 0 auto; z-index: 2; width: 100%; height: calc(100% + 58px); margin: 0; opacity: 0; cursor: grab; touch-action: none; -webkit-appearance: none; appearance: none; background: none; }
+.sky .sunrange:active { cursor: grabbing; }
+.sky .sunrange::-webkit-slider-runnable-track { height: 100%; background: none; }
+.sky .sunrange::-webkit-slider-thumb { -webkit-appearance: none; width: 1px; height: 100%; }
+.sky .sunrange::-moz-range-track { height: 100%; background: none; }
+.sky .sunrange::-moz-range-thumb { width: 1px; height: 100%; border: 0; }
+.sky .sun { transition: transform .15s, box-shadow .15s; pointer-events: none; }
+.sky .curve:hover .sun, .sky .curve.dragging .sun { transform: scale(1.25); box-shadow: 0 0 22px rgba(255, 200, 120, 1); }
+.sky .curve:has(.sunrange:focus-visible) .sun { outline: 2px solid var(--sky-fg); outline-offset: 4px; }
+
+.btn { border: 1px solid var(--hair); background: var(--sheet); border-radius: var(--r); padding: 8px 14px; cursor: pointer; font-weight: 600; white-space: nowrap; }
+.btn:hover { border-color: var(--ink); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.icon { width: 44px; padding: 8px 0; display: grid; place-items: center; border-radius: 99px; }
+
+/* Controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+.group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; max-width: 100%; }
+.seg { display: inline-flex; max-width: 100%; border: 1px solid var(--hair); border-radius: var(--r); overflow-x: auto; background: var(--sheet); }
+.seg button { flex: none; }
+.seg button { border: 0; background: none; padding: 7px 12px; cursor: pointer; font-size: 13px; font-weight: 500; }
+.seg button + button { border-left: 1px solid var(--hair); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); }
+.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; user-select: none; }
+.toggle input { accent-color: var(--accent); width: 15px; height: 15px; }
+
+/* Main */
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 12px; align-items: start; }
+.sheet { background: var(--sheet); border: 1px solid var(--hair); border-radius: var(--rc); }
+.planwrap { position: relative; padding: 14px 18px 8px; }
+#plan { display: block; width: 100%; height: auto; }
+.toast { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: var(--ink); color: var(--sheet); padding: 7px 12px; border-radius: var(--r); font-size: 13px; pointer-events: none; opacity: 0; transition: opacity .25s; white-space: nowrap; max-width: calc(100% - 24px); overflow: hidden; text-overflow: ellipsis; }
+.toast.on { opacity: 1; }
+.heatlegend { position: absolute; right: 18px; bottom: 14px; display: grid; gap: 4px; background: var(--sheet); border: 1px solid var(--hair); border-radius: var(--r); padding: 8px 10px; font-size: 12px; }
+.heatlegend .bar { width: 150px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, rgb(214,236,255), rgb(132,189,240) 30%, rgb(52,112,210) 60%, rgb(20,60,150) 85%, rgb(8,30,92)); }
+.heatlegend .ends { display: flex; justify-content: space-between; color: var(--muted); }
+
+/* The column's height follows its content slowly, so playback doesn't jolt the page below. */
+.side { overflow: hidden; transition: height .45s ease; }
+.sideinner { display: grid; gap: 12px; }
+.checkswrap { padding: 0 18px; }
+.checkswrap summary { display: flex; align-items: center; gap: 10px; padding: 14px 0; cursor: pointer; list-style: none; }
+.checkswrap summary::-webkit-details-marker { display: none; }
+.checkswrap summary .chev { margin-left: auto; transition: transform .2s; }
+.checkswrap[open] summary .chev { transform: rotate(180deg); }
+.checkswrap .checks { padding-bottom: 16px; }
+.checksum { font-size: 13px; font-weight: 600; }
+.checksum.bad { color: var(--bad); }
+.checksum.ok { color: var(--ok); }
+@media (prefers-reduced-motion: reduce) { .side { transition: none !important; } }
+.panel { padding: 16px 18px; }
+.panel h2 { margin: 0 0 8px; }
+.who { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+.who li { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 4px 4px; border-radius: 4px; cursor: default; }
+.who li:hover { background: var(--paper); }
+.who .dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--ink); }
+.who .name { font-weight: 600; font-size: 13px; }
+.who .what { color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.who .where { font-size: 12px; text-align: right; white-space: nowrap; }
+.who li.asleep .dot { opacity: .45; }
+.who li.away { opacity: .7; }
+.tray { display: grid; gap: 6px; }
+.tray .place { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; }
+.tray .place b { font-weight: 600; min-width: 0; }
+.chip { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; font: 600 11px var(--font-ui); box-shadow: inset 0 0 0 1px var(--ink); }
+.empty { color: var(--muted); font-size: 13px; margin: 0; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.checks li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 6px; font-size: 13px; }
+.checks .mark { font-weight: 700; }
+.checks .ok .mark { color: var(--ok); }
+.checks .bad .mark { color: var(--bad); }
+.checks small { display: block; color: var(--muted); font-size: 12px; }
+
+/* Scrubber */
+.scrub { position: relative; padding: 14px 18px 10px; }
+.scrub canvas { display: block; width: 100%; height: 70px; cursor: ew-resize; touch-action: none; }
+.scrub .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding-top: 4px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+
+/* Calendar */
+.cal { padding: 16px 18px; }
+.calhead { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.acts { display: flex; gap: 6px 14px; flex-wrap: wrap; font-size: 12px; }
+.calbody { overflow-x: auto; }
+#calendar { display: block; cursor: pointer; }
+#calendar text { fill: var(--muted); font: 11px var(--font-ui); }
+#calendar .dayname { fill: var(--ink); font-weight: 700; letter-spacing: .06em; }
+#calendar .now { fill: var(--ink); }
+
+.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.footnote { color: var(--muted); font-size: 12px; margin: 0; }
+
+/* Plan drawing */
+#plan .roomfill { fill: var(--sheet); }
+#plan.drawing .roomfill { fill: none; }
+#plan.drawing .furn, #plan.drawing .rlabel, #plan.drawing .rnum { opacity: 0; }
+#plan.drawing .wall, #plan.drawing .outline { stroke: var(--accent); opacity: .8; }
+#plan .wall { fill: none; stroke: var(--ink); stroke-width: .26; stroke-linejoin: miter; }
+#plan .outline { fill: none; stroke: var(--ink); stroke-width: .62; }
+#plan .jamb { stroke: var(--ink); stroke-width: .16; }
+#plan .pergola { fill: none; stroke: var(--muted); stroke-width: .14; stroke-dasharray: .6 .4; }
+#plan .void { fill: none; stroke: var(--hair); stroke-width: .12; }
+#plan .furn { fill: none; stroke: var(--hair); stroke-width: .12; }
+#plan .rlabel { fill: var(--muted); font: 600 .7px var(--font-ui); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; }
+#plan .rnum { fill: var(--muted); font: .62px var(--font-data); text-anchor: middle; opacity: .8; }
+#plan .sheetlabel { fill: var(--ink); font: 700 1.05px var(--font-ui); letter-spacing: .1em; text-transform: uppercase; }
+#plan .sheetsub { fill: var(--muted); font: .78px var(--font-data); }
+#plan .exitlabel { fill: var(--muted); font: 600 .6px var(--font-ui); letter-spacing: .12em; text-transform: uppercase; }
+#plan .dim { stroke: var(--muted); stroke-width: .1; }
+#plan .dimtext { fill: var(--muted); font: .7px var(--font-data); text-anchor: middle; }
+#plan .person { transition: opacity .2s; }
+#plan .person .ring { stroke: var(--ink); stroke-width: .16; }
+#plan .person text { fill: #fff; font: 700 1.15px var(--font-ui); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+#plan .person.asleep .body { opacity: .42; }
+#plan .moon { fill: var(--moon); }
+#plan[data-focus] .person:not(.focus) { opacity: .2; }
+#plan .trail { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Lighting v2 */
+.acuity { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); font-weight: 500; }
+.acuity input { width: 120px; accent-color: var(--lamp); }
+.acuity b { color: var(--ink); font-weight: 600; font-size: 12px; min-width: 76px; }
+.lights { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.lights li { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 8px; align-items: center; font-size: 13px; }
+.lights .bulb { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 1px var(--hair); }
+.lights .z { font-weight: 600; }
+.lights .why { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.lights .val { text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; white-space: nowrap; }
+.lights .pv { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-left: 4px; }
+.logic { padding: 22px 24px; }
+.logic h2 { margin: 0 0 6px; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+.logic h3 { margin: 18px 0 6px; font-size: 13px; font-weight: 700; }
+.logic p { margin: 0 0 8px; max-width: 68ch; color: var(--ink); }
+.logic .lede { color: var(--muted); }
+.logic code { font-size: 12px; background: var(--rule); padding: 1px 5px; border-radius: 5px; }
+.logicgrid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 8px 40px; }
+.rules { list-style: none; margin: 6px 0 4px; padding: 0; display: grid; gap: 8px; max-width: 68ch; }
+.rules li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: start; }
+.rules .tag { display: inline-grid; place-items: center; height: 22px; border-radius: 99px; background: var(--ink); color: var(--sheet); font-size: 11px; font-weight: 700; }
+.rules em { color: var(--muted); font-style: normal; font-size: 12px; }
+.pairs { list-style: none; margin: 4px 0 8px; padding: 0; display: grid; gap: 3px; font-size: 13px; }
+.pairs .via { color: var(--muted); font-size: 12px; }
+.zonechips { display: flex; flex-wrap: wrap; gap: 6px; }
+.zonechips span { font-size: 12px; padding: 3px 9px; border-radius: 99px; background: var(--rule); }
+.ranks { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
+.ranks li { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 10px; }
+.ranks span { color: var(--muted); }
+.zonechips span.private { background: var(--ink); color: var(--sheet); }
+.gaps { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 6px; max-width: 90ch; }
+#plan .doordash { stroke: var(--ink); stroke-width: .14; stroke-dasharray: .32 .24; }
+#plan .light { mix-blend-mode: normal; }
+#plan .lightval { fill: var(--ink); font: 600 .62px var(--font-ui); text-anchor: middle; }
+@media (max-width: 900px) { .logicgrid { grid-template-columns: minmax(0, 1fr); } }
+
+@media (max-width: 1100px) {
+  .main { grid-template-columns: minmax(0, 1fr); }
+  .sideinner { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+}
+@media (max-width: 720px) {
+  .head { grid-template-columns: minmax(0, 1fr); }
+  .sky { padding: 16px 16px 14px; }
+  .sky .day { font-size: 19px; }
+  .sky .time { font-size: 34px; }
+  .avatar { width: 28px; height: 28px; font-size: 13px; }
+  .sky .row.sub { font-size: 12px; }
+  .whosel { gap: 6px; }
+  .sky .suntimes b { font-size: 19px; }
+}
+@media (max-width: 1000px) { .head { grid-template-columns: minmax(0, 1fr); } .sky { order: -1; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="head">
+    <div class="title">
+      <div>
+        <h1>Rhythm Simulator</h1>
+        <p id="subtitle">Loading the household…</p>
+      </div>
+      <div class="seedbox">
+        <label for="seed"><span class="eyebrow">Seed</span><input id="seed" type="text" spellcheck="false" autocomplete="off"></label>
+        <button class="btn" id="newWeek" type="button">New week</button>
+        <div class="history" id="history" aria-label="Recent seeds"></div>
+      </div>
+      <div class="controls">
+        <div class="group">
+          <button class="btn primary icon" id="play" type="button" aria-label="Play">
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path id="playIcon" d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+          </button>
+          <div class="seg" id="speed" role="group" aria-label="Playback speed"></div>
+        </div>
+        <div class="group">
+          <span class="eyebrow">Jump</span>
+          <div class="seg" id="days" role="group" aria-label="Jump to day"></div>
+          <button class="btn" id="nextEvent" type="button" title="Next wake, sleep, departure or arrival (N)">Next event →</button>
+        </div>
+        <div class="group">
+          <label class="toggle"><input type="checkbox" id="tTrails" checked> Trails</label>
+          <label class="toggle"><input type="checkbox" id="tDrawing"> Architect's drawing</label>
+        </div>
+        <div class="group">
+          <span class="eyebrow">Rooms</span>
+          <div class="seg" id="rooms" role="group" aria-label="Room view">
+            <button type="button" data-v="heatmap" aria-pressed="false">Heatmap (week)</button><button type="button" data-v="lighting" aria-pressed="false">Lighting</button><button type="button" data-v="occupancy" aria-pressed="true">Occupancy</button>
+          </div>
+          <label class="acuity" for="acuity" title="How brightly empty zones in line of sight follow an occupied zone">
+            <span>Conservation</span><input type="range" id="acuity" min="0" max="100" step="5" value="50"><span>Clarity</span>
+            <b class="num" id="acuityVal">Acuity 50%</b>
+          </label>
+          <span class="eyebrow">Night floor</span>
+          <div class="seg" id="floorSeg" role="group" aria-label="Night floor level, before sleep" title="Minimum light for anyone awake, before they've slept. After sleep it's half this.">
+            <button type="button" data-v="0" aria-pressed="false">Off</button><button type="button" data-v="5" aria-pressed="false">5%</button><button type="button" data-v="10" aria-pressed="true">10%</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="sky" id="sky" aria-label="Day, time and sun">
+      <div class="row">
+        <label class="whosel"><span class="avatar" id="whoAvatar" aria-hidden="true"></span><span class="day" id="whoName">Whole home</span><svg class="chev" width="20" height="12" viewBox="0 0 20 12" aria-hidden="true"><path d="M2 2l8 8 8-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><select id="occupant" aria-label="Whose lighting to preview"></select></label>
+        <span class="time" id="rTime">00:00</span>
+      </div>
+      <div class="row sub"><span class="daynav"><button type="button" id="dayPrev" aria-label="Previous day">‹</button><span id="rDate">&nbsp;</span><button type="button" id="dayNext" aria-label="Next day">›</button></span><span id="rPhase"></span></div>
+      <div class="curve" id="sunWrap">
+        <svg id="sunCurve" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <span class="mark" id="markWake"></span><span class="mark" id="markSleep"></span>
+        <span class="sundrop" id="sunDrop"></span>
+        <span class="sun" id="sunDot"></span>
+        <div class="lightstrip"><canvas id="lightStrip" role="img" aria-label="Brightness and colour temperature through the day"></canvas></div>
+        <input type="range" class="sunrange" id="sunRange" min="0" max="1439" step="1" value="385" aria-label="Time of day: drag the sun">
+      </div>
+      <div class="hours" aria-hidden="true"><span>00</span><span>03</span><span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span><span>00</span></div>
+      <div class="suntimes">
+        <div><span>Sunrise</span><b id="rRise">–</b></div>
+        <div><span>Daylight</span><b id="rLight">–</b></div>
+        <div><span>Sunset</span><b id="rSet">–</b></div>
+      </div>
+      <div class="loc"><svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 0a5 5 0 0 0-5 5c0 3.6 5 9 5 9s5-5.4 5-9a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="currentColor"/></svg><span id="rLoc"></span></div>
+    </section>
+  </header>
+
+  <div class="main">
+    <section class="sheet planwrap" aria-label="Floor plan playback">
+      <svg id="plan" role="img" aria-label="Floor plans of both levels with occupants"></svg>
+      <div class="toast" id="toast"></div>
+      <div class="heatlegend" id="heatLegend" hidden>
+        <span class="eyebrow">Time spent awake · <span id="heatRange"></span></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="ends"><span>Less</span><span>More</span></span>
+      </div>
+    </section>
+    <aside class="side" id="side"><div class="sideinner" id="sideInner">
+      <section class="sheet panel" id="lightsPanel" hidden>
+        <h2 class="eyebrow">Lights now</h2>
+        <ul class="lights" id="lights"></ul>
+      </section>
+      <section class="sheet panel">
+        <h2 class="eyebrow">Who is where</h2>
+        <ul class="who" id="who"></ul>
+      </section>
+      <section class="sheet panel">
+        <h2 class="eyebrow">Away</h2>
+        <div class="tray" id="tray"></div>
+      </section>
+    </div></aside>
+  </div>
+
+  <section class="sheet scrub" aria-label="Week timeline">
+    <canvas id="scrub" aria-label="Drag to move through the week"></canvas>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--lamp)"></i>Awake at home</span>
+      <span><i class="sw" style="background:var(--moon)"></i>Asleep at home</span>
+      <span>Height is people on the plan, up to <span id="maxPeople" class="num">10</span></span>
+    </div>
+  </section>
+
+  <section class="sheet cal" aria-label="Calendar">
+    <div class="calhead">
+      <div class="group">
+        <span class="eyebrow">Calendar</span>
+        <div class="seg" id="calMode" role="group" aria-label="Calendar layout">
+          <button type="button" data-v="grid" aria-pressed="true">Week grid</button><button type="button" data-v="lanes" aria-pressed="false">Lanes by day</button>
+        </div>
+      </div>
+      <div class="acts" id="acts"></div>
+    </div>
+    <div class="calbody"><svg id="calendar"></svg></div>
+  </section>
+
+  <details class="sheet checkswrap" id="checksWrap">
+    <summary><span class="eyebrow">Checks on this week</span><span class="checksum" id="checksSum"></span><svg class="chev" width="14" height="9" viewBox="0 0 20 12" aria-hidden="true"><path d="M2 2l8 8 8-8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+    <ul class="checks" id="checks"></ul>
+  </details>
+
+  <section class="sheet logic" id="logic" aria-labelledby="logicTitle">
+    <h2 id="logicTitle">Lighting logic · v7</h2>
+    <p class="lede">Every zone is decided by exactly one rule, every minute. The rules run top to bottom; the first that applies wins. Turn on <b>Rooms → Lighting</b> to watch them, and see <b>Lights now</b> for which rule lit each zone.</p>
+    <div class="logicgrid">
+      <div>
+        <h3>1 · Is the zone occupied?</h3>
+        <p>A zone is a room, or part of one: the primary bedroom has two, side A and side B. A zone is <b>occupied</b> this minute if anyone is in it, including someone walking through. People who are away don't count.</p>
+        <h3>2 · Occupied zones</h3>
+        <p>Set only by the people in them. Neighbours never change them. A sleeping infant comes first everywhere. After that, a zone with an owner follows its ranking, and every other zone follows O1–O3.</p>
+        <ol class="rules">
+          <li><span class="tag">S1</span><div><b>An infant is asleep here:</b> off, whoever else is in the zone and whatever their rank.</div></li>
+          <li><span class="tag">H1</span><div><b>The zone has an owner:</b> the highest-ranked person there controls it. People sharing that rank are averaged. They use their own state, so an owner asleep means off, even if someone lower-ranked is awake, and an owner awake means their preference, even if someone lower-ranked is asleep (unless S1 applies).</div></li>
+          <li><span class="tag">O1</span><div><b>No owner, and an infant is there:</b> use the infant's preference. If the infant is asleep, that means off.</div></li>
+          <li><span class="tag">O2</span><div><b>Otherwise, someone is asleep:</b> use the sleeper's preference (off). <em>Added to close a gap.</em></div></li>
+          <li><span class="tag">O3</span><div><b>Otherwise:</b> average everyone's preference, which is the home settings curve unless it is their own room. Intensity is averaged; colour is averaged in mireds, so warm and cool blend the way the eye sees them. One person means their own preference.</div></li>
+        </ol>
+        <h3>3 · Unoccupied zones</h3>
+        <p>U1 reaches any empty zone. U2 stays within public zones. If both reach a zone, the higher value wins.</p>
+        <ol class="rules">
+          <li><span class="tag">U1</span><div><b>An occupied zone, public or private, is in line of sight:</b> light to <b>Acuity × its intensity</b>, in its colour. If several are in sight, follow the brightest.</div></li>
+          <li><span class="tag">U2</span><div><b>Public zones only, two steps:</b> an empty public zone takes light from an occupied public zone through a first empty public zone, at <b>Acuity × Acuity × its intensity</b>, in its colour. An occupied zone stops the light passing through, and a zone lit only by the night floor doesn't send a second step.</div></li>
+          <li><span class="tag">U3</span><div><b>Neither reaches it:</b> off.</div></li>
+        </ol>
+        <h3>4 · Night floor and route to bed</h3>
+        <p>Your curves always play on schedule. These two rules only lift a zone that would otherwise be dimmer.</p>
+        <ol class="rules">
+          <li><span class="tag">F1</span><div><b>Someone is awake here and the zone is dimmer than the floor:</b> light to the floor, at 1800 K. The floor is 10% before that person has slept tonight and 5% after, with a night counted from 18:00. A zone with someone asleep in it isn't lifted.</div></li>
+          <li><span class="tag">R1</span><div><b>An empty zone is on the way to the bed of someone the floor is lighting:</b> light to their floor, at 1800 K. The route is the shortest walk through the doors, closable ones included, private zones included, skipping any zone with a sleeper. It also stops as soon as they reach their own room.</div></li>
+        </ol>
+        <p>The floor fades in over a minute and out over three. Whichever applies, the higher value wins, so the curve eases down to the floor at night and rises out of it in the morning. The <b>Night floor</b> control sets the before-sleep level, with after-sleep at half of it. Choosing Off shows the curves alone. The strip under the Solar Graph includes the floor.</p>
+        <h3>Preferences and Acuity</h3>
+        <p>Preferences come from your other app's export, one value every 15 minutes, with a weekday and a weekend day. Each of the four household members has a curve for <b>their own room</b>: Parent A and Parent B for both sides of the primary bedroom, the kid for the kid's bedroom, and the infant for the nursery. Everywhere else, and for the nanny and guests, everyone gets the <b>home settings</b> curve. Set them in the other app and bring them in with <b>Import lighting-export.json</b> at the bottom of the page. The <b>Conservation–Clarity</b> slider sets Acuity (default 50%). At 0% empty neighbours stay dark; at 100% they match the occupied zone.</p>
+        <h3>How it's drawn</h3>
+        <p>Each zone gets a circle at its centre. The radius shows intensity: 0% is no circle, and 100% is the smallest circle that covers the whole zone. The fill shows the colour temperature, on the same scale as the strip under the Solar Graph: orange at 1800 K, through peach and white, to blue at 4000 K.</p>
+      </div>
+      <div>
+        <h3>Who controls each owned zone</h3>
+        <p>Highest rank first. An equals sign means those people share a rank.</p>
+        <ul class="ranks" id="rankList"></ul>
+        <h3>Line of sight</h3>
+        <p>Two zones see each other when they share an opening, a stair, or a door that is never closed. Walls (solid) and closable doors (dashed on the plan) block it, and so do exterior doors.</p>
+        <ul class="pairs" id="losPairs"></ul>
+        <h3>Private spaces</h3>
+        <p>Spaces are public by default. Bedrooms, bathrooms, the closet, the office and the gym are private. Owned zones are the private zones listed above. Private zones can light and be lit one step away (U1), but the second step (U2) never starts in, passes through or lands in a private zone. Closable doors already block line of sight from most private rooms.</p>
+        <div class="zonechips" id="zoneChips"></div>
+      </div>
+    </div>
+    <h3>Is it MECE? Gaps in the brief, and how this build closes them</h3>
+    <p>As written, the rules covered occupied and unoccupied zones but left the cases below open. Each gap now has a default; these are proposals and each can be switched in <code>household.json → lighting.rules</code> or <code>plan.json</code>.</p>
+    <ol class="gaps">
+      <li><b>One occupant.</b> The rules only described several. Treated as an average of one: that person's preference.</li>
+      <li><b>Someone asleep.</b> Not covered. Added O2: a sleeper keeps their zone dark, the way the infant rule protects the infant. The alternative is to average them in with everyone else (<code>sleeperWins: false</code>).</li>
+      <li><b>Guests and the nanny.</b> They aren't in the export, so they use the home settings curve.</li>
+      <li><b>Public rooms.</b> The export gives everyone the same home settings outside their own room, so O1 and O3 give the same answer there. To let people's own curves follow them and be averaged, set <code>lighting.rules.outsideOwnRoom</code> to <code>"own"</code>.</li>
+      <li><b>Awake while the curve says off.</b> F1 and R1 cover this: staying up late, waking early and getting up at night all get the floor.</li>
+      <li><b>Waking beside a sleeper.</b> A zone with a sleeper stays off, so the first steps out of a shared side of the primary bedroom can be dark. The route lights up from the next zone along.</li>
+      <li><b>The nanny and guests.</b> They get the floor where they are, but no route, because they have no bed here.</li>
+      <li><b>Knowing someone is back in bed.</b> Here the floor ends when the simulation says they fell asleep. A real home would need bed or motion sensing.</li>
+      <li><b>Two infants in one zone.</b> Their preferences are averaged.</li>
+      <li><b>Empty zone with nothing in reach.</b> Not covered. Added U3: off.</li>
+      <li><b>Empty zone that sees several occupied zones.</b> Follows the brightest. The alternative is to average them (<code>neighbours</code>).</li>
+      <li><b>Chains of empty zones.</b> Light passes two steps at most, and only through public zones (<code>spillHops: 2</code>), so one person doesn't light the whole house.</li>
+      <li><b>Public vs private had no effect.</b> As first written the label changed nothing. Now the difference is that only public zones take part in the second step (U2).</li>
+      <li><b>Doors not on your list.</b> The kitchen–hall door, the walk-in closet door, the two wardrobe doors in the primary bedroom and the mechanical room door from the first-floor bath are drawn as doors but weren't listed as closable, so they count as always open. Exterior doors (front, side, and the patio door to the pergola) block line of sight.</li>
+      <li><b>Between floors.</b> The two halves of the stair are one stairwell, so they see each other. The entry is open to the loft above, but they are not linked yet.</li>
+      <li><b>Walking through.</b> Counts as occupied, so the hall lights for the length of a walk (<code>transitCountsAsOccupied</code>).</li>
+      <li><b>Rooms without a list entry.</b> Storage, the pantry and laundry follow the default and are public. The walk-in closet and the wardrobes are private, as part of the primary suite. The mechanical room opens off the first-floor bath; no one's routine takes them there.</li>
+          <li><b>Owners vs sleepers.</b> A sleeping infant overrides every rank (S1), so a parent awake beside the sleeping infant stays in the dark. Other sleepers are protected by rank only in owned zones: a lower-ranked sleeper doesn't darken the room for a higher-ranked person who is awake. In zones with no owner, O2 protects every sleeper.</li>
+      <li><b>Private zones with no owner.</b> The baths, closet, office and gym aren't in the ranking, so they use O1–O3.</li>
+      <li><b>People the ranking doesn't name.</b> The nanny ranks with the adults in the nursery and kid's bedroom. Anyone not listed, such as guests, ranks below everyone listed and is averaged with others at that rank.</li>
+      <li><b>Parent sides.</b> Each parent owns the side of the primary bedroom with their bed.</li>
+    </ol>
+  </section>
+
+  <section class="tools">
+    <button class="btn" id="prefsImport" type="button">Import lighting-export.json</button>
+    <input id="prefsFile" type="file" accept=".json,application/json" hidden>
+    <button class="btn" id="exportEvents" type="button">Export events.json</button>
+    <button class="btn" id="exportHousehold" type="button">Download household.json</button>
+    <label class="btn" for="loadHousehold">Load household.json</label>
+    <input id="loadHousehold" type="file" accept=".json,application/json" hidden>
+    <label class="toggle"><input type="checkbox" id="tNanny"> Nanny stays for Thursday dinner</label>
+    <p class="footnote" id="footnote"></p>
+  </section>
+</div>
+
+<script src="engine.js"></script>
+<script src="lighting.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
